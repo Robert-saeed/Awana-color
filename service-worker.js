@@ -1,16 +1,18 @@
 self.addEventListener('install', event => {
-    event.waitUntil(
-      caches.open('v1').then(cache => {
-        return cache.addAll([
-          './',
-          './index.html',
-          './manifest.json',
-          './icon-192.png',
-          './icon-512.png'
-        ]);
-      })
-    );
-  });
+  self.skipWaiting(); // ✅ يجبر التحديث
+  event.waitUntil(
+    caches.open('v2').then(cache => {
+      return cache.addAll([
+        './',
+        './index.html',
+        './manifest.json',
+        './icon-192.png',
+        './icon-512.png'
+      ]);
+    })
+  );
+});
+  
   
   self.addEventListener('fetch', event => {
     event.respondWith(
@@ -19,4 +21,4 @@ self.addEventListener('install', event => {
       })
     );
   });
-  
+
