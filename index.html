@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Quarters</title>
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: sans-serif;
+      background: #000;
+    }
+
+    .top-bar {
+      background-color: #111;
+      color: white;
+      padding: 10px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .top-bar button {
+      padding: 5px 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .top-bar button:focus {
+      background-color: #555;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      height: calc(100% - 50px);
+    }
+
+    .quarter {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .red    { background-color: #f44336; }
+    .green  { background-color: #4caf50; }
+    .yellow { background-color: #ffeb3b; }
+    .blue   { background-color: #2196f3; }
+
+    h1.counter {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.2em;
+      color: black;
+      margin: 0;
+    }
+
+    .side-buttons {
+      position: absolute;
+      left: 5px;
+      top: 45%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .bottom-buttons {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      padding: 5px 6.4px;
+      font-size: 0.75em;
+      border: 2px solid #000;
+      border-radius: 6px;
+      background-color: #fff;
+      color: #000;
+      cursor: pointer;
+      box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+
+    button:focus {
+      background-color: #ddd;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <button onclick="resetAll()">🔄</button>
+    <button onclick="undo()">↩️</button>
+    <button onclick="redo()">↪️</button>
+    <button onclick="toggleFullScreen()">⛶</button>
+  </div>
+
+  <div class="container">
+    <!-- الأرباع الأربعة -->
+    <div class="quarter red" data-id="red">
+      <div class="side-buttons">
+        <button class="action" data-action="del">DEL</button>
+        <button class="action" data-action="-100">-100</button>
+        <button class="action" data-action="-75">-75</button>
+        <button class="action" data-action="-50">-50</button>
+        <button class="action" data-action="-25">-25</button>
+      </div>
+      <h1 class="counter">0</h1>
+      <div class="bottom-buttons">
+        <button class="action" data-action="100">1st</button>
+        <button class="action" data-action="75">2nd</button>
+        <button class="action" data-action="50">3ed</button>
+        <button class="action" data-action="25">4th</button>
+      </div>
+    </div>
+
+    <div class="quarter green" data-id="green">
+      <div class="side-buttons">
+        <button class="action" data-action="del">DEL</button>
+        <button class="action" data-action="-100">-100</button>
+        <button class="action" data-action="-75">-75</button>
+        <button class="action" data-action="-50">-50</button>
+        <button class="action" data-action="-25">-25</button>
+      </div>
+      <h1 class="counter">0</h1>
+      <div class="bottom-buttons">
+        <button class="action" data-action="100">1st</button>
+        <button class="action" data-action="75">2nd</button>
+        <button class="action" data-action="50">3ed</button>
+        <button class="action" data-action="25">4th</button>
+      </div>
+    </div>
+
+    <div class="quarter yellow" data-id="yellow">
+      <div class="side-buttons">
+        <button class="action" data-action="del">DEL</button>
+        <button class="action" data-action="-100">-100</button>
+        <button class="action" data-action="-75">-75</button>
+        <button class="action" data-action="-50">-50</button>
+        <button class="action" data-action="-25">-25</button>
+      </div>
+      <h1 class="counter">0</h1>
+      <div class="bottom-buttons">
+        <button class="action" data-action="100">1st</button>
+        <button class="action" data-action="75">2nd</button>
+        <button class="action" data-action="50">3ed</button>
+        <button class="action" data-action="25">4th</button>
+      </div>
+    </div>
+
+    <div class="quarter blue" data-id="blue">
+      <div class="side-buttons">
+        <button class="action" data-action="del">DEL</button>
+        <button class="action" data-action="-100">-100</button>
+        <button class="action" data-action="-75">-75</button>
+        <button class="action" data-action="-50">-50</button>
+        <button class="action" data-action="-25">-25</button>
+      </div>
+      <h1 class="counter">0</h1>
+      <div class="bottom-buttons">
+        <button class="action" data-action="100">1st</button>
+        <button class="action" data-action="75">2nd</button>
+        <button class="action" data-action="50">3ed</button>
+        <button class="action" data-action="25">4th</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  const globalHistory = [];
+  const globalFuture = [];
+
+  function applyChange(id, newValue) {
+    const h1 = document.querySelector(`.quarter[data-id="${id}"] .counter`);
+    const oldValue = parseInt(h1.textContent);
+    if (newValue === oldValue) return;
+    h1.textContent = newValue;
+    localStorage.setItem(id, newValue);
+    globalHistory.push({ id, from: oldValue, to: newValue });
+    globalFuture.length = 0; // clear redo stack
+  }
+
+  document.querySelectorAll('.quarter').forEach(quarter => {
+    const id = quarter.dataset.id;
+    const h1 = quarter.querySelector('.counter');
+    const saved = localStorage.getItem(id);
+    h1.textContent = saved ? saved : '0';
+
+    quarter.querySelectorAll('.action').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.action;
+        let value = parseInt(h1.textContent);
+        let newValue = action === 'del' ? 0 : value + parseInt(action);
+        applyChange(id, newValue);
+      });
+    });
+  });
+
+  function undo() {
+    if (globalHistory.length === 0) return;
+    const last = globalHistory.pop();
+    const h1 = document.querySelector(`.quarter[data-id="${last.id}"] .counter`);
+    h1.textContent = last.from;
+    localStorage.setItem(last.id, last.from);
+    globalFuture.push(last);
+  }
+
+  function redo() {
+    if (globalFuture.length === 0) return;
+    const next = globalFuture.pop();
+    const h1 = document.querySelector(`.quarter[data-id="${next.id}"] .counter`);
+    h1.textContent = next.to;
+    localStorage.setItem(next.id, next.to);
+    globalHistory.push(next);
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.quarter').forEach(q => {
+      const id = q.dataset.id;
+      const h1 = q.querySelector('.counter');
+      const oldValue = parseInt(h1.textContent);
+      applyChange(id, 0);
+    });
+  }
+
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        alert(`فشل في تفعيل ملء الشاشة: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+</script>
+</body>
+</html>
