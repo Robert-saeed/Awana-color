@@ -47,11 +47,11 @@ function redo() {
 
 function resetAll() {
   document.querySelectorAll('.quarter').forEach(q => {
+alert("تم التطوير من قبل روبرت سعيد");
     const id = q.dataset.id;
     const h1 = q.querySelector('.counter');
     const oldValue = parseInt(h1.textContent);
     applyChange(id, 0);
-alert("تم التطوير من قبل روبرت سعيد")
 
   });
 }
