@@ -45,7 +45,7 @@ html, body {
   overflow: hidden;
 }
 
-.red    { background-color: #f44336; }
+.red    { background-color: #000000; }
 .green  { background-color: #4caf50; }
 .yellow { background-color: #ffeb3b; }
 .blue   { background-color: #2196f3; }
